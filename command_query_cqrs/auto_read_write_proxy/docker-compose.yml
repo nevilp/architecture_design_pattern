@@ -1,0 +1,76 @@
+version: '2'
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - pgnetwork
+    depends_on:
+      - pgpool
+
+  pgpool:
+    image: bitnami/pgpool:latest
+    container_name: pgpool
+    environment:
+      - PGPOOL_BACKEND_NODES=0:postgresql-master:5432:1,1:postgresql-slave:5432:1
+      - PGPOOL_SR_CHECK_USER=postgres
+      - PGPOOL_SR_CHECK_PASSWORD=master_password
+      - PGPOOL_ENABLE_LB=yes
+      - PGPOOL_POSTGRES_USERNAME=postgres
+      - PGPOOL_POSTGRES_PASSWORD=master_password
+      - PGPOOL_ADMIN_USERNAME=admin
+      - PGPOOL_ADMIN_PASSWORD=admin_password
+    ports:
+      - "5436:5432"
+    depends_on:
+      - postgresql-master
+      - postgresql-slave
+    networks:
+      - pgnetwork
+
+  postgresql-master:
+    image: bitnami/postgresql:latest
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=master_password
+      - POSTGRESQL_DATABASE=my_database
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgresql_master_data:/bitnami/postgresql
+    networks:
+      - pgnetwork
+
+  postgresql-slave:
+    image: bitnami/postgresql:latest
+    depends_on:
+      - postgresql-master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=postgresql-master
+      - POSTGRESQL_PASSWORD=master_password
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_DATABASE=my_database
+    ports:
+      - "5434:5432"  
+    volumes:
+      - postgresql_slave_data:/bitnami/postgresql
+    networks:
+      - pgnetwork
+
+volumes:
+  postgresql_master_data:
+  postgresql_slave_data:
+
+networks:
+  pgnetwork:
+    driver: bridge
