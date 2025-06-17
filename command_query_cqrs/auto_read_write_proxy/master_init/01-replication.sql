@@ -1,0 +1,2 @@
+CREATE ROLE replica WITH REPLICATION PASSWORD 'postgres' LOGIN;
+CREATE ROLE sr_check_user WITH LOGIN PASSWORD 'postgres';

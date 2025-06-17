@@ -94,6 +94,7 @@ Microproject: Hourly script to pull data from SQLite, generate Excel report, and
 | Orchestration           | Central controller manages workflow                | BPM tools, workflow engines               |
 | Choreography            | Services react based on events, no central control | Microservices, EDA                        |
 | Rule-Based Architecture | Uses rules to drive decision-making                | Fraud detection, compliance (Drools, OPA) |
+
 | State Machine           | Encapsulates transitions between states            | Protocols, games                          |
 | Interpreter             | Defines language grammar and evaluation            | Scripting, query engines                  |
 | Workflow Engine         | Declarative control of steps                       | BPMN, Airflow DAGs                        |
@@ -123,3 +124,87 @@ Microproject: Hourly script to pull data from SQLite, generate Excel report, and
 | Retry/Dead Letter Queue | Retry failed tasks and isolate failures | Task queues, email systems  |
 | Circuit Breaker         | Prevents cascading failures             | Netflix Hystrix, resilience |
 | Bulkhead                |                                         |                             |
+
+
+► Design a SQL-backed KV Store
+∟ Focus on: relational schema modeling + CRUD latency tradeoffs
+
+► Design a Superfast KV Store
+∟ Focus on: in-memory caching + fast persistence strategies
+
+► Design a Faster Superfast KV Store
+∟ Focus on: optimizing for write-heavy workloads at scale
+
+► Design S3 (Object Storage)
+∟ Focus on: chunking, metadata handling, and eventual consistency
+
+► Design a Distributed Cache
+∟ Focus on: eviction policies, replication, and cache invalidation
+
+2. Realtime & Event-Driven Systems
+
+► Design Online/Offline Indicator
+∟ Focus on: heartbeat mechanisms + stale state detection
+
+► Design a Realtime Database
+∟ Focus on: websocket handling + conflict resolution
+
+► Design Synchronized Queue Consumers
+∟ Focus on: concurrency, message ordering, and consumer coordination
+
+► Design Flash Sale
+∟ Focus on: load shedding, queueing, and atomic inventory updates
+
+► Design Realtime Claps
+∟ Focus on: low-latency counter updates without write bottlenecks
+
+3. User-Facing Apps & Social Systems
+
+► Design a Blogging Platform
+∟ Focus on: data modeling, feed generation, and access control
+
+► Design OnePic (Photo App)
+∟ Focus on: media storage, timelines, and user-generated content
+
+► Design Photo Tagging
+∟ Focus on: graph relationships and search within images
+
+► Design HashTag Service
+∟ Focus on: real-time indexing and trending detection
+
+► Design User Affinity
+∟ Focus on: collaborative filtering and scoring models
+
+4. Search, Messaging, and Delivery Systems
+
+► Design a Word Dictionary
+∟ Focus on: trie implementation and prefix lookups
+
+► Design Text-Based Search Engine
+∟ Focus on: tokenization, inverted index, and ranking
+
+► Design SQL-backed Message Broker
+∟ Focus on: durability, ordering, and delivery semantics
+
+► Design a Distributed Task Scheduler
+∟ Focus on: idempotency, retries, and time-based triggering
+
+► Design a service to show Recent Searches
+∟ Focus on: LRU cache strategies and user-level isolation
+
+ 5. Streaming, Sync, and Media
+
+► Design a Video Processing Pipeline
+∟ Focus on: batch vs realtime processing and encoding layers
+
+► Design Airline Check-in
+∟ Focus on: concurrency control, seat allocation, and time-based locking
+
+► Design a Remote File Sync Service
+∟ Focus on: delta sync, conflict detection, and version control
+
+► Design a Text-based Cricket Commentary Service
+∟ Focus on: event streaming + real-time fan engagement
+
+► Design “Who’s Near Me” Service
+∟ Focus on: location sharding + frequent geo updates

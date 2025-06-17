@@ -1,1 +1,3 @@
 /.venv
+/command_query_cqrs/auto_read_write_proxy/master_data
+/command_query_cqrs/auto_read_write_proxy/replica_data

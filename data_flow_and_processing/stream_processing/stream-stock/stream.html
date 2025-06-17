@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Stream</title>
+</head>
+<body>
+  <h1>Stock Price Stream</h1>
+  <ul id="messages"></ul>
+
+  <script>
+    const socket = new WebSocket("ws://localhost:8080/ws/stockstream");
+
+    socket.onopen = () => {
+      console.log("Connected to WebSocket server");
+      // Optionally send a message
+      socket.send("Hello server!");
+    };
+
+    socket.onmessage = (event) => {
+      const data = event.data;
+      console.log("Received:", data);
+
+      const li = document.createElement("li");
+      li.textContent = data;
+      document.getElementById("messages").appendChild(li);
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    socket.onclose = (event) => {
+      console.log("WebSocket connection closed:", event);
+    };
+  </script>
+</body>
+</html>

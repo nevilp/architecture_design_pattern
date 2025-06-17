@@ -1,0 +1,5 @@
+kafka-python
+faust
+sqlalchemy
+streamlit
+fastapi

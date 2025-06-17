@@ -1,0 +1,55 @@
+
+services :
+    zookeeper:
+       image: confluentinc/cp-zookeeper
+       environment: 
+           ZOOKEEPER_CLIENT_PORT: 2181
+       ports:
+         - "2181:2181"
+       networks:
+         - kafka-net      
+
+    kafka:
+       image: confluentinc/cp-kafka
+       ports:
+          - "9092:9092"
+       depends_on :
+          - zookeeper
+       environment:
+          KAFKA_ZOOKEEPER_CONNECT : zookeeper:2181
+          KAFKA_ADVERTISED_LISTENERS : PLAINTEXT://kafka:9092  
+          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+          KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+       healthcheck:
+          test: ["CMD-SHELL","kafka-topics --bootstrap-server kafka:9092 --list || exit 1"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+       networks:
+         - kafka-net    
+
+
+
+    producer:
+      build:
+         context: ./producer
+      depends_on:
+         kafka:
+            condition: service_healthy
+      networks:
+         - kafka-net
+
+    websocket_stream:
+      build:
+         context: ./websocket_stream
+      ports:
+      - "8080:8000"   
+      depends_on:
+         kafka:
+            condition: service_healthy
+      networks:
+         - kafka-net   
+                      
+networks:
+  kafka-net:
+    driver: bridge
